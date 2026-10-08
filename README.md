@@ -1,6 +1,6 @@
 # Global Supply Chain AI Assistant
 
-A conversational data-analysis application built with **Python**, **Pandas**, and **Streamlit** to explore global trade data through a chat-based interface. The application uses predefined, rule-based question patterns to retrieve results from the dataset.
+A chat-based data-analysis application built with **Python**, **Pandas**, and **Streamlit** to explore global trade data. The application uses predefined, rule-based question patterns to retrieve results from the dataset.
 
 ---
 
@@ -8,7 +8,7 @@ A conversational data-analysis application built with **Python**, **Pandas**, an
 
 The **Global Supply Chain AI Assistant** is an interactive application designed to simplify the exploration of global trade data.
 
-Users can enter questions through a chat interface and retrieve information from a structured global trade dataset. Instead of manually filtering and aggregating large datasets, users can ask questions about:
+Users can enter questions through a chat interface and retrieve information from a structured global trade dataset. Instead of manually filtering and aggregating data, users can ask questions about:
 
 - Total trade value
 - Suppliers
@@ -18,13 +18,33 @@ Users can enter questions through a chat interface and retrieve information from
 - Importer trade totals
 - Selected country-to-country trade relationships
 
-The application matches supported questions to predefined patterns and performs the corresponding data analysis using Python and Pandas. It does not use a language model or an external AI API.
+The application matches supported questions to predefined patterns and performs the corresponding data analysis using Python and Pandas. The Streamlit application does not use a language model or an external AI API.
+
+---
+
+## Project Background
+
+This project began as a **Power BI dashboard** built from international trade data collected from the **UN Comtrade** database. After building the dashboard, I extended the same dataset into a chat-based interface using Python, Pandas, and Streamlit, so the same trade metrics can be queried by typing questions instead of using dashboard filters.
+
+**Project progression:**
+
+```text
+UN Comtrade Data Collection
+          ↓
+Data Cleaning and Preparation
+          ↓
+Power BI Dashboard
+          ↓
+Python + Pandas Analysis
+          ↓
+Streamlit Chat Interface
+```
 
 ---
 
 ## Objectives
 
-- Provide a simple conversational interface for exploring global trade data.
+- Provide a simple chat interface for exploring global trade data.
 - Analyze trade values across suppliers and importing countries.
 - Identify major suppliers and importers based on trade value.
 - Examine trade activity across different years.
@@ -37,13 +57,15 @@ The application matches supported questions to predefined patterns and performs 
 
 **UN Comtrade – International Trade Database**
 
-The project uses international trade data containing information related to:
+The dataset (`global_supply_chain.csv`) contains 2,538 records of historical trade data covering the years 2019–2023, with 4 supplier countries and 3 importing countries.
 
-- Importing countries
-- Supplier countries
-- Trade values
-- Years
-- Importer–supplier relationships
+| Column | Description |
+|---|---|
+| Year | Year of the trade record |
+| importer | Importing country |
+| Supplier | Supplier country |
+| Trade Flow | Type of trade flow |
+| Trade Value | Value of the trade |
 
 The dataset is stored in CSV format and processed using Pandas.
 
@@ -53,6 +75,7 @@ The dataset is stored in CSV format and processed using Pandas.
 
 | Technology | Purpose |
 |---|---|
+| Power BI | Initial trade-data dashboard |
 | Python | Application development and data processing |
 | Pandas | Data filtering, grouping, aggregation, and analysis |
 | Streamlit | Interactive web application and chat interface |
@@ -82,8 +105,8 @@ The dataset is stored in CSV format and processed using Pandas.
 - Displays yearly trade results in tabular format.
 
 ### Country-to-Country Trade Analysis
-- Supports analysis of the Germany–China trade relationship.
-- Calculates the corresponding total trade value for the supported relationship.
+- Supports analysis of Germany's trade with China (Germany as importer, China as supplier).
+- Calculates the corresponding total trade value for this relationship.
 
 ### Chat Interface
 - Allows users to submit questions through a chat interface.
@@ -107,7 +130,7 @@ The dataset is stored in CSV format and processed using Pandas.
 | Show importer totals | Importer-wise trade values |
 | Show me trade by year | Yearly trade values |
 | How much did China trade? | China's total supplier trade value |
-| What is Germany's trade value with China? | Germany–China trade value |
+| What is Germany's trade value with China? | Germany's trade value with China |
 
 ---
 
@@ -174,9 +197,9 @@ Chat Display
 
 ### Trade Analysis Result
 
-![Trade Table](Global%20Supply%20Chain%20AI%20Assistant%20Table.png)
+![Trade by Year Table](Global%20Supply%20Chain%20AI%20Assistant%20Table.png)
 
-*Example of a tabular result generated from the underlying trade dataset.*
+*Example of the yearly trade-value table generated from the dataset.*
 
 ---
 
@@ -185,10 +208,10 @@ Chat Display
 ```text
 global-supply-chain-ai-assistant/
 │
-├── app.py
-├── chatbot.py
-├── test_data.py
-├── global_supply_chain.csv
+├── app.py                  # Streamlit chat application
+├── chatbot.py              # Standalone API testing script
+├── test_data.py            # Script that prints sample analyses from the dataset
+├── global_supply_chain.csv # Trade dataset
 ├── README.md
 ├── .gitignore
 ├── LICENSE
@@ -238,15 +261,20 @@ After running the command, open the local Streamlit URL shown in the terminal, t
 http://localhost:8501
 ```
 
+### Optional: Run the Data Check Script
+
+```bash
+python test_data.py
+```
+
 ---
 
 ## Limitations
 
 - The application is rule-based and supports predefined question patterns only.
-- It does not use a language model or an external AI API.
 - Questions outside the implemented patterns may not be recognized.
 - The analysis depends on the information available in the underlying dataset.
-- Country-to-country analysis is currently implemented for supported relationships only.
+- Country-to-country analysis is currently implemented only for Germany (importer) and China (supplier).
 - The application is intended primarily for data exploration and educational purposes.
 
 ---
@@ -267,7 +295,7 @@ Potential improvements (not currently implemented):
 
 ## Conclusion
 
-The Global Supply Chain AI Assistant demonstrates how Python, Pandas, and Streamlit can be combined to create an interactive, rule-based chat application for exploring international trade data.
+The Global Supply Chain AI Assistant demonstrates how a trade-data analysis project can move from a Power BI dashboard to an interactive, rule-based chat application built with Python, Pandas, and Streamlit.
 
 The project provides a simple way to retrieve and analyze information related to:
 
@@ -277,7 +305,7 @@ The project provides a simple way to retrieve and analyze information related to
 - Yearly trade activity
 - Country-to-country trade relationships
 
-Through this project, I gained practical experience in Python programming, data processing, data aggregation, analytical operations, and the development of interactive data-driven applications.
+Through this project, I gained practical experience in data collection, dashboard development, Python programming, data aggregation, analytical operations, and the development of interactive data-driven applications.
 
 ---
 
@@ -288,7 +316,7 @@ Through this project, I gained practical experience in Python programming, data 
 ## Project Category
 
 - Data Analytics
+- Business Intelligence
 - Conversational Data Applications
 - Python Development
 - Supply Chain Analytics
-- Data-Driven Applications
