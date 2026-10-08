@@ -162,13 +162,13 @@ Conversational Display
 
 ### Main Interface – Dark Theme
 
-![Main Interface – Dark Theme](images/Global-Supply-Chain-AI-Assistant-Dark-Theme.png)
+![Main Interface – Dark Theme](Global%20Supply%20Chain%20AI%20Assistant%20Dark%20Theme.png)
 
 *Dark theme interface showing the conversational workspace, recent questions, and chat input.*
 
 ### Trade Value by Year – Light Theme
 
-![Trade Value by Year – Light Theme](images/Global-Supply-Chain-AI-Assistant-Table.png)
+![Trade Value by Year – Light Theme](Global%20Supply%20Chain%20AI%20Assistant%20Table.png)
 
 *Light theme interface showing yearly trade-value analysis from 2019 to 2023.*
 
