@@ -217,7 +217,8 @@ global-supply-chain-ai-assistant/
 ├── LICENSE
 ├── Global Supply Chain AI Assistant.png
 ├── Global Supply Chain AI Assistant Dark Theme.png
-└── Global Supply Chain AI Assistant Table.png
+├── Global Supply Chain AI Assistant Table.png
+└── Global Supply Chain AI Assistant Command Prompt.png
 ```
 
 ---
@@ -253,9 +254,15 @@ pip install streamlit pandas
 streamlit run app.py
 ```
 
+The terminal will show the local URL, as in the example below.
+
+![Running the app in Command Prompt](Global%20Supply%20Chain%20AI%20Assistant%20Command%20Prompt.png)
+
+*Starting the application with `streamlit run app.py` in Command Prompt.*
+
 ### 5. Open the Application
 
-After running the command, open the local Streamlit URL shown in the terminal, typically:
+Open the local Streamlit URL shown in the terminal, typically:
 
 ```text
 http://localhost:8501
