@@ -1,6 +1,6 @@
 # Global Supply Chain AI Assistant
 
-A conversational data-analysis application built with **Python**, **Pandas**, and **Streamlit** to explore global trade data through a chat-based interface.
+A conversational data-analysis application built with **Python**, **Pandas**, and **Streamlit** to explore global trade data through a chat-based interface. The application uses predefined, rule-based question patterns to retrieve results from the dataset.
 
 ---
 
@@ -8,7 +8,7 @@ A conversational data-analysis application built with **Python**, **Pandas**, an
 
 The **Global Supply Chain AI Assistant** is an interactive application designed to simplify the exploration of global trade data.
 
-Users can enter questions through a conversational interface and retrieve relevant information from a structured global trade dataset. Instead of manually filtering and aggregating large datasets, users can ask questions about:
+Users can enter questions through a chat interface and retrieve information from a structured global trade dataset. Instead of manually filtering and aggregating large datasets, users can ask questions about:
 
 - Total trade value
 - Suppliers
@@ -18,7 +18,7 @@ Users can enter questions through a conversational interface and retrieve releva
 - Importer trade totals
 - Selected country-to-country trade relationships
 
-The application processes supported questions and performs the corresponding data analysis using Python and Pandas.
+The application matches supported questions to predefined patterns and performs the corresponding data analysis using Python and Pandas. It does not use a language model or an external AI API.
 
 ---
 
@@ -64,7 +64,7 @@ The dataset is stored in CSV format and processed using Pandas.
 
 ### Total Trade Analysis
 - Calculates the overall trade value across the dataset.
-- Returns the aggregated trade value through the conversational interface.
+- Returns the aggregated trade value through the chat interface.
 
 ### Supplier Analysis
 - Calculates total trade values for individual suppliers.
@@ -85,7 +85,7 @@ The dataset is stored in CSV format and processed using Pandas.
 - Supports analysis of the Germany–China trade relationship.
 - Calculates the corresponding total trade value for the supported relationship.
 
-### Conversational Interface
+### Chat Interface
 - Allows users to submit questions through a chat interface.
 - Displays questions and responses in conversational format.
 - Maintains chat history during the application session.
@@ -144,33 +144,39 @@ Relevant Data Analysis
      ↓
 Result Generation
      ↓
-Conversational Display
+Chat Display
 ```
 
 ### Workflow Steps
 
 1. **Data Loading** – The application loads the global trade dataset from a CSV file.
 2. **Question Input** – The user enters a question through the Streamlit chat interface.
-3. **Question Processing** – The application converts the question to lowercase and identifies the relevant supported query pattern.
+3. **Question Processing** – The application converts the question to lowercase and checks it against the supported query patterns.
 4. **Data Analysis** – The corresponding Pandas operation is performed on the dataset.
 5. **Result Generation** – The calculated value or table is prepared for display.
-6. **Response Display** – The result is displayed through the conversational interface.
+6. **Response Display** – The result is displayed in the chat interface.
 
 ---
 
 ## Application Screenshots
 
-### Main Interface – Dark Theme
+### Main Interface
 
-![Main Interface – Dark Theme](Global%20Supply%20Chain%20AI%20Assistant%20Dark%20Theme.png)
+![Main Interface](Global%20Supply%20Chain%20AI%20Assistant.png)
 
-*Dark theme interface showing the conversational workspace, recent questions, and chat input.*
+*Main interface showing the chat workspace, recent questions, and chat input.*
 
-### Trade Value by Year – Light Theme
+### Dark Theme
 
-![Trade Value by Year – Light Theme](Global%20Supply%20Chain%20AI%20Assistant%20Table.png)
+![Dark Theme](Global%20Supply%20Chain%20AI%20Assistant%20Dark%20Theme.png)
 
-*Light theme interface showing yearly trade-value analysis from 2019 to 2023.*
+*The application interface in dark theme.*
+
+### Trade Analysis Result
+
+![Trade Table](Global%20Supply%20Chain%20AI%20Assistant%20Table.png)
+
+*Example of a tabular result generated from the underlying trade dataset.*
 
 ---
 
@@ -183,14 +189,12 @@ global-supply-chain-ai-assistant/
 ├── chatbot.py
 ├── test_data.py
 ├── global_supply_chain.csv
-├── requirements.txt
 ├── README.md
 ├── .gitignore
 ├── LICENSE
-│
-└── images/
-    ├── main-interface.png
-    └── trade-by-year.png
+├── Global Supply Chain AI Assistant.png
+├── Global Supply Chain AI Assistant Dark Theme.png
+└── Global Supply Chain AI Assistant Table.png
 ```
 
 ---
@@ -217,7 +221,7 @@ cd global-supply-chain-ai-assistant
 ### 3. Install Dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install streamlit pandas
 ```
 
 ### 4. Run the Application
@@ -238,7 +242,8 @@ http://localhost:8501
 
 ## Limitations
 
-- The application supports predefined question patterns only.
+- The application is rule-based and supports predefined question patterns only.
+- It does not use a language model or an external AI API.
 - Questions outside the implemented patterns may not be recognized.
 - The analysis depends on the information available in the underlying dataset.
 - Country-to-country analysis is currently implemented for supported relationships only.
@@ -248,21 +253,21 @@ http://localhost:8501
 
 ## Future Enhancements
 
+Potential improvements (not currently implemented):
+
 - Integrating a language model for more flexible natural-language understanding
 - Expanding support for country-to-country trade queries
 - Adding interactive charts and visualizations
 - Adding commodity-level trade analysis
-- Improving conversational follow-up questions
+- Improving follow-up question handling
 - Expanding the underlying trade dataset
 - Adding additional supply-chain indicators
-- Improving automated analytical insights
-- Deploying the application to a public web platform
 
 ---
 
 ## Conclusion
 
-The Global Supply Chain AI Assistant demonstrates how Python, Pandas, and Streamlit can be combined to create an interactive conversational application for exploring international trade data.
+The Global Supply Chain AI Assistant demonstrates how Python, Pandas, and Streamlit can be combined to create an interactive, rule-based chat application for exploring international trade data.
 
 The project provides a simple way to retrieve and analyze information related to:
 
