@@ -17,6 +17,16 @@ I started both projects because I wanted to understand how events like COVID-19 
 
 ---
 
+## Screenshots
+
+| Assistant | Dashboard |
+|---|---|
+| ![Assistant answering a question](images/01-assistant.png) | ![Dashboard with totals and trade per route](images/02-dashboard.png) |
+| **Forecast** | **Risk & anomalies** |
+| ![Forecast with backtested model and range](images/03-forecast.png) | ![Supplier concentration (HHI)](images/04-risk-anomalies.png) |
+| **Models** | **Dark theme** |
+| ![Intent classifier results](images/05-models.png) | ![Assistant in dark theme](images/06-assistant-dark-theme.png) |
+
 ## What it does
 
 | Feature | How |
@@ -95,6 +105,7 @@ global-supply-chain-ai-assistant/
 │   ├── anomaly.py         Isolation Forest
 │   ├── assistant.py       question -> answer
 │   └── llm.py             optional OpenAI rewording
+├── images/                screenshots used in this README
 ├── models/                saved model + metrics (created by train.py)
 └── tests/                 pytest
 ```
