@@ -1,5 +1,7 @@
 # Global Supply Chain AI Assistant
 
+**82.8% intent accuracy · 5 forecasting models backtested · anomaly detection · Streamlit app + FastAPI · 45 automated tests**
+
 Ask questions about global trade data in plain English, and get answers, charts, forecasts and risk flags.
 
 A machine learning classifier works out what kind of question you are asking, and the answer is then calculated
@@ -19,7 +21,7 @@ I started both projects because I wanted to understand how events like COVID-19 
 
 | Feature | How |
 |---|---|
-| **Understands questions** | TF-IDF + logistic regression intent classifier (11 question types), plus rules and fuzzy matching to find countries, years and "top N" |
+| **Understands questions** | TF-IDF + logistic regression intent classifier (11 question types), plus rules that find countries (even with small spelling mistakes), years and "top N" |
 | **Answers with real numbers** | pandas on a cleaned route table. The model only picks *what* to calculate, never the number itself |
 | **Forecasts 2024–2026** | 5 models compared with a rolling backtest. The best one is used, and the forecast range comes from the backtest errors |
 | **Finds unusual years** | Isolation Forest on growth, distance from trend, and difference from the other routes that year |
@@ -27,6 +29,7 @@ I started both projects because I wanted to understand how events like COVID-19 
 | **Data quality report** | Finds and removes the double-counted rows, and shows before/after totals |
 | **Web app** | Streamlit, with tabs for Assistant, Dashboard, Forecast, Risk, Data quality and Models |
 | **REST API** | FastAPI (`/ask`, `/forecast`, `/anomalies`, `/routes`, `/quality`) with auto-generated docs |
+| **Tests** | 45 automated tests (pytest) covering data cleaning, the models, the assistant and the API |
 | **Optional LLM** | If `OPENAI_API_KEY` is set, an LLM can reword answers. It gets the computed answer and is told not to add numbers |
 
 ## Results
@@ -141,8 +144,8 @@ curl -X POST http://127.0.0.1:8000/ask \
 
 - Only 3 importers, 4 suppliers and 5 years, so forecasts are rough. The app shows a range, not just one number.
 - Supplier shares are shares *within this dataset*, not of each country's total imports.
-- The Germany product lines have no product codes, so I can say "one product line is 98% of the Netherlands → Germany
-  route" but not which product it is. Adding HS codes would be the next step.
+- The Germany product lines have no product codes, so the app can't say which products they are. Adding HS codes would
+  be the next step.
 - The intent classifier is trained on 250 example questions. More real user questions would make it better.
 
 ## Tech
