@@ -2,8 +2,12 @@
 
 Ask questions about global trade data in plain English, and get answers, charts, forecasts and risk flags.
 
-It uses machine learning to understand the question, forecasts trade per route, and flags unusual years.
-While building it, I also found and fixed a data problem in the CSV: Germany's trade was being counted twice.
+A machine learning classifier works out what kind of question you are asking, and the answer is then calculated
+directly from the data, so the model never makes up a number. The app also forecasts each trade route, flags
+unusual years and measures how much each importer depends on a single supplier.
+
+One detail in the data needed care: for Germany, the CSV has both country totals and product-level rows,
+so a simple sum would count Germany twice.
 
 The data comes from my [Global Supply Chain Dashboard](https://github.com/ammu-analytics/global-supply-chain-dashboard)
 project (UN Comtrade, 2019–2023, DOI [10.5281/zenodo.21299744](https://doi.org/10.5281/zenodo.21299744)).
@@ -56,7 +60,7 @@ I kept all models in the app so you can compare them, but by default it uses whi
 **Anomalies flagged:** Netherlands → China 2023 (+35%), China → USA 2023 (−22%), Rep. of Korea → China 2023 (−19%),
 China → Germany 2023 (−15.5%) and 2022 (+21.8%), Japan → USA 2020 (−16.7%).
 
-## The data problem I found
+## Totals and product-level rows
 
 For Germany 2020–2023, the CSV has one **total** row per supplier and year, **plus** 2,483 product-line rows that
 add up to exactly that total. If you simply sum the whole column, Germany is counted twice:
@@ -73,7 +77,7 @@ add up to exactly that total. If you simply sum the whole column, Germany is cou
 ## Project structure
 
 ```
-supply-chain-ai/
+global-supply-chain-ai-assistant/
 ├── app.py                 Streamlit web app
 ├── api.py                 FastAPI REST API
 ├── train.py               trains + evaluates everything, writes models/report.json
