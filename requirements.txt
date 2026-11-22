@@ -1,0 +1,10 @@
+pandas>=2.1
+numpy>=1.26
+scikit-learn>=1.3
+joblib>=1.3
+streamlit>=1.36
+fastapi>=0.110
+uvicorn>=0.29
+pytest>=8.0
+httpx>=0.27        # used by FastAPI's TestClient in the tests
+openai>=1.40       # optional, only for LLM rewording

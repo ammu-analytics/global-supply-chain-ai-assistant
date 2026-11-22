@@ -1,0 +1,251 @@
+text,intent
+what is the total trade value,total_trade
+total trade,total_trade
+show me the overall trade value,total_trade
+how much trade is in the dataset,total_trade
+sum of all trade,total_trade
+total value of all imports,total_trade
+what was the total trade in 2022,total_trade
+total imports in 2021,total_trade
+grand total of trade value,total_trade
+how big is the trade overall,total_trade
+overall import value for 2023,total_trade
+total trade value for germany,total_trade
+how much did the usa import in total,total_trade
+whats the total for china in 2020,total_trade
+add up all the trade values,total_trade
+total imports of germany in 2023,total_trade
+how much in total,total_trade
+who is the biggest supplier,rank_suppliers
+which supplier has the highest trade value,rank_suppliers
+top supplier,rank_suppliers
+top 3 suppliers,rank_suppliers
+largest exporter in the data,rank_suppliers
+which country supplies the most,rank_suppliers
+smallest supplier,rank_suppliers
+lowest supplier by value,rank_suppliers
+rank the suppliers,rank_suppliers
+show supplier totals,rank_suppliers
+supplier trade totals,rank_suppliers
+show suppliers,rank_suppliers
+who supplies germany the most,rank_suppliers
+main supplier of the usa in 2022,rank_suppliers
+biggest supplier to china in 2023,rank_suppliers
+which supplier is the least important,rank_suppliers
+list suppliers from biggest to smallest,rank_suppliers
+who sells the most goods,rank_suppliers
+top 2 suppliers in 2021,rank_suppliers
+supplier ranking,rank_suppliers
+who is the biggest importer,rank_importers
+which importer has the highest value,rank_importers
+top importer,rank_importers
+smallest importer,rank_importers
+lowest importer,rank_importers
+rank the importers,rank_importers
+importer totals,rank_importers
+show importers,rank_importers
+show importer totals,rank_importers
+which country imports the most,rank_importers
+who buys the most,rank_importers
+biggest buyer in 2022,rank_importers
+which importer buys most from japan,rank_importers
+largest importing country,rank_importers
+importer ranking for 2023,rank_importers
+who is the top buyer of chinese goods,rank_importers
+which country imports the least,rank_importers
+how much does germany import from china,route_value
+germany china trade,route_value
+trade between usa and japan,route_value
+imports from korea to germany,route_value
+what is germany's trade value with china,route_value
+how much did china import from the netherlands in 2021,route_value
+value of us imports from china,route_value
+china to usa trade in 2022,route_value
+netherlands germany trade value,route_value
+how much does the usa buy from korea,route_value
+trade from japan to china,route_value
+what did germany import from japan in 2023,route_value
+show the germany korea route,route_value
+korea usa imports,route_value
+how much goods went from china to germany,route_value
+trade value by year,trend
+trade by year,trend
+yearly trade,trend
+show trade each year,trend
+how did trade change over time,trend
+trend of imports,trend
+show me the trend for germany,trend
+usa imports over the years,trend
+china imports trend,trend
+how has trade with china developed,trend
+plot trade over time,trend
+trade every year,trend
+history of germany china trade,trend
+show the yearly values for japan,trend
+how did imports move from 2019 to 2023,trend
+time series of trade,trend
+which route grew the fastest,growth
+year over year growth,growth
+growth rate in 2023,growth
+which trade route dropped the most,growth
+biggest decline in 2023,growth
+how much did imports grow in 2022,growth
+percentage change from last year,growth
+did trade with china go down,growth
+yoy change for germany,growth
+fastest growing supplier,growth
+which route fell the most in 2020,growth
+annual growth of usa imports,growth
+did korea grow or shrink,growth
+compare growth between routes,growth
+increase or decrease since last year,growth
+what is the cagr of us china trade,growth
+predict trade for 2024,forecast
+forecast next year,forecast
+what will germany import from china in 2024,forecast
+forecast usa imports,forecast
+future trade value,forecast
+predict 2025 imports,forecast
+what will trade look like next year,forecast
+projection for china japan trade,forecast
+estimate next years trade,forecast
+can you forecast the korea route,forecast
+expected imports in 2024,forecast
+machine learning prediction for trade,forecast
+will trade go up next year,forecast
+forecast for germany,forecast
+how dependent is germany on china,dependency
+supplier concentration risk,dependency
+which country depends most on one supplier,dependency
+share of china in us imports,dependency
+supply chain risk,dependency
+how concentrated are germany's imports,dependency
+what percent of germany's imports come from china,dependency
+diversification of usa suppliers,dependency
+is china too dependent on korea,dependency
+risk of relying on one supplier,dependency
+hhi for germany,dependency
+market share of each supplier,dependency
+dependency risk for 2023,dependency
+which importer is most diversified,dependency
+any anomalies in the data,anomalies
+unusual changes,anomalies
+detect outliers,anomalies
+strange values in trade,anomalies
+which years look abnormal,anomalies
+find anomalies,anomalies
+were there any shocks,anomalies
+show unusual trade movements,anomalies
+anything weird in the data,anomalies
+outlier detection,anomalies
+unexpected drops or spikes,anomalies
+is the data clean,data_quality
+data quality report,data_quality
+are there duplicates,data_quality
+was anything double counted,data_quality
+how was the data cleaned,data_quality
+missing values,data_quality
+problems with the dataset,data_quality
+how many rows are there,data_quality
+explain the data cleaning,data_quality
+is the csv reliable,data_quality
+why is the total different from before,data_quality
+what columns are in the data,data_quality
+hello,help
+hi,help
+help,help
+what can you do,help
+how do i use this,help
+what questions can i ask,help
+hey there,help
+good morning,help
+show me examples,help
+who are you,help
+thanks,help
+total value of trade in the whole dataset,total_trade
+what is the combined import value,total_trade
+give me the total,total_trade
+total trade for all countries,total_trade
+how much was traded altogether in 2019,total_trade
+overall value of imports into the usa,total_trade
+who supplied the most in 2020,rank_suppliers
+best supplier by trade value,rank_suppliers
+which exporter is number one,rank_suppliers
+5 biggest suppliers,rank_suppliers
+which supplier is the weakest,rank_suppliers
+which country is the biggest source of imports,rank_suppliers
+who is the biggest buyer,rank_importers
+rank countries by imports,rank_importers
+which market imports the most from korea,rank_importers
+which importer is number one,rank_importers
+which country spends the most on imports,rank_importers
+how much does china buy from japan,route_value
+what is the value of imports from the netherlands into germany,route_value
+korea to china imports in 2023,route_value
+japan usa trade value in 2019,route_value
+germany and netherlands trade,route_value
+how much did the usa import from japan,route_value
+show me the trend over the years,trend
+line chart of imports by year,trend
+how have japanese exports changed over time,trend
+evolution of trade from 2019 to 2023,trend
+show the development of china's imports,trend
+year by year values for korea,trend
+how much did trade with korea change in 2023,growth
+which supplier lost the most,growth
+percentage growth per route,growth
+what route had the biggest increase,growth
+which route shrank in 2022,growth
+growth of germany china trade,growth
+did imports fall in 2023,growth
+rate of change for usa imports,growth
+compound annual growth rate,growth
+forecast the china route,forecast
+forcast trade,forecast
+predict next year's imports from korea,forecast
+what will the value be in 2025,forecast
+prediction for usa china imports,forecast
+model the future of germany japan trade,forecast
+estimate 2024 trade between china and japan,forecast
+predict future trade values,forecast
+next year prediction,forecast
+how risky is germany's supply chain,dependency
+concentration of suppliers for china,dependency
+how much does the usa rely on china,dependency
+which importer relies most on a single supplier,dependency
+what share of china's imports come from korea,dependency
+supplier diversification score,dependency
+how exposed is the usa to china,dependency
+dependence on chinese imports,dependency
+are there any outliers,anomalies
+abnormal years in the data,anomalies
+flag suspicious values,anomalies
+find unusual drops,anomalies
+any sudden spikes in imports,anomalies
+which route behaved strangely,anomalies
+isolation forest anomaly results,anomalies
+irregular trade patterns,anomalies
+which data points look wrong,anomalies
+show anomaly detection,anomalies
+check the data for errors,data_quality
+how many duplicate rows,data_quality
+were there double counted rows,data_quality
+data cleaning summary,data_quality
+how did you clean the csv,data_quality
+what is wrong with the raw data,data_quality
+how many records are in the file,data_quality
+which years are covered in the data,data_quality
+is there missing data,data_quality
+data validation,data_quality
+describe the dataset,data_quality
+total rows and columns,data_quality
+what kind of questions do you understand,help
+can you help me,help
+i need help,help
+hello there,help
+hi bot,help
+what is this app,help
+how does this work,help
+give me some example questions,help
+thank you,help
+ok thanks,help

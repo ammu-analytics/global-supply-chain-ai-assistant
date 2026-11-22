@@ -1,0 +1,21 @@
+{
+  "cv_folds": 5,
+  "accuracy": 0.828,
+  "macro_f1": 0.829,
+  "per_intent_f1": {
+    "anomalies": 0.789,
+    "data_quality": 0.784,
+    "dependency": 0.8,
+    "forecast": 0.837,
+    "growth": 0.756,
+    "help": 0.923,
+    "rank_importers": 0.826,
+    "rank_suppliers": 0.83,
+    "route_value": 0.8,
+    "total_trade": 0.917,
+    "trend": 0.851
+  },
+  "n_examples": 250,
+  "n_intents": 11,
+  "trained_at": "2026-11-21T15:48:04"
+}

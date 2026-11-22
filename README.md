@@ -1,329 +1,150 @@
 # Global Supply Chain AI Assistant
 
-A chat-based data-analysis application built with **Python**, **Pandas**, and **Streamlit** to explore global trade data. The application uses predefined, rule-based question patterns to retrieve results from the dataset.
+Ask questions about global trade data in plain English, and get answers, charts, forecasts and risk flags.
+
+It uses machine learning to understand the question, forecasts trade per route, and flags unusual years.
+While building it, I also found and fixed a data problem in the CSV: Germany's trade was being counted twice.
+
+The data comes from my [Global Supply Chain Dashboard](https://github.com/ammu-analytics/global-supply-chain-dashboard)
+project (UN Comtrade, 2019–2023, DOI [10.5281/zenodo.21299744](https://doi.org/10.5281/zenodo.21299744)).
+I started both projects because I wanted to understand how events like COVID-19 disrupted global supply chains.
 
 ---
 
-## Project Overview
+## What it does
 
-The **Global Supply Chain AI Assistant** is an interactive application designed to simplify the exploration of global trade data.
-
-Users can enter questions through a chat interface and retrieve information from a structured global trade dataset. Instead of manually filtering and aggregating data, users can ask questions about:
-
-- Total trade value
-- Suppliers
-- Importers
-- Yearly trade activity
-- Supplier trade totals
-- Importer trade totals
-- Selected country-to-country trade relationships
-
-The application matches supported questions to predefined patterns and performs the corresponding data analysis using Python and Pandas. The Streamlit application does not use a language model or an external AI API.
-
----
-
-## Project Background
-
-This project began as a **Power BI dashboard** built from international trade data collected from the **UN Comtrade** database. After building the dashboard, I extended the same dataset into a chat-based interface using Python, Pandas, and Streamlit, so the same trade metrics can be queried by typing questions instead of using dashboard filters.
-
-**Project progression:**
-
-```text
-UN Comtrade Data Collection
-          ↓
-Data Cleaning and Preparation
-          ↓
-Power BI Dashboard
-          ↓
-Python + Pandas Analysis
-          ↓
-Streamlit Chat Interface
-```
-
----
-
-## Objectives
-
-- Provide a simple chat interface for exploring global trade data.
-- Analyze trade values across suppliers and importing countries.
-- Identify major suppliers and importers based on trade value.
-- Examine trade activity across different years.
-- Simplify access to aggregated trade information.
-- Apply Python-based data analysis to a real-world supply chain dataset.
-
----
-
-## Data Source
-
-**UN Comtrade – International Trade Database**
-
-The dataset (`global_supply_chain.csv`) contains 2,538 records of historical trade data covering the years 2019–2023, with 4 supplier countries and 3 importing countries.
-
-| Column | Description |
+| Feature | How |
 |---|---|
-| Year | Year of the trade record |
-| importer | Importing country |
-| Supplier | Supplier country |
-| Trade Flow | Type of trade flow |
-| Trade Value | Value of the trade |
+| **Understands questions** | TF-IDF + logistic regression intent classifier (11 question types), plus rules and fuzzy matching to find countries, years and "top N" |
+| **Answers with real numbers** | pandas on a cleaned route table. The model only picks *what* to calculate, never the number itself |
+| **Forecasts 2024–2026** | 5 models compared with a rolling backtest. The best one is used, and the forecast range comes from the backtest errors |
+| **Finds unusual years** | Isolation Forest on growth, distance from trend, and difference from the other routes that year |
+| **Supply chain risk** | Herfindahl index (HHI) of supplier concentration per importer, and product-line concentration for Germany |
+| **Data quality report** | Finds and removes the double-counted rows, and shows before/after totals |
+| **Web app** | Streamlit, with tabs for Assistant, Dashboard, Forecast, Risk, Data quality and Models |
+| **REST API** | FastAPI (`/ask`, `/forecast`, `/anomalies`, `/routes`, `/quality`) with auto-generated docs |
+| **Optional LLM** | If `OPENAI_API_KEY` is set, an LLM can reword answers. It gets the computed answer and is told not to add numbers |
 
-The dataset is stored in CSV format and processed using Pandas.
+## Results
 
----
+Run `python train.py` to reproduce these.
 
-## Technologies Used
+**Intent classifier:** 250 labelled questions, 11 intents, 5-fold cross-validation
 
-| Technology | Purpose |
+| | Accuracy |
 |---|---|
-| Power BI | Initial trade-data dashboard |
-| Python | Application development and data processing |
-| Pandas | Data filtering, grouping, aggregation, and analysis |
-| Streamlit | Interactive web application and chat interface |
-| CSV | Structured trade-data storage |
+| Keyword-rule baseline (`if "biggest" in question`) | 16.4% |
+| TF-IDF + logistic regression | **82.8%** (macro F1 0.83) |
 
----
+(The baseline is a set of simple if/else keyword rules, like most first chatbots use. It only covers a few
+question types and breaks as soon as the wording changes, which is why I trained a classifier instead.)
 
-## Key Features
+**Forecasting:** predict 2022 and 2023 from earlier years, for all 11 routes
 
-### Total Trade Analysis
-- Calculates the overall trade value across the dataset.
-- Returns the aggregated trade value through the chat interface.
-
-### Supplier Analysis
-- Calculates total trade values for individual suppliers.
-- Identifies the largest and smallest suppliers.
-- Displays supplier-wise trade totals.
-
-### Importer Analysis
-- Calculates total trade values for individual importers.
-- Identifies the largest and smallest importers.
-- Displays importer-wise trade totals.
-
-### Yearly Trade Analysis
-- Groups trade values by year.
-- Calculates total trade value for each year.
-- Displays yearly trade results in tabular format.
-
-### Country-to-Country Trade Analysis
-- Supports analysis of Germany's trade with China (Germany as importer, China as supplier).
-- Calculates the corresponding total trade value for this relationship.
-
-### Chat Interface
-- Allows users to submit questions through a chat interface.
-- Displays questions and responses in conversational format.
-- Maintains chat history during the application session.
-- Provides a **New Chat** option.
-- Displays recent questions in the sidebar.
-
----
-
-## Example Queries
-
-| Example Query | Result |
+| Model | MAPE |
 |---|---|
-| What is the total trade value? | Overall trade value |
-| Which supplier is the biggest? | Largest supplier |
-| Which supplier is the smallest? | Smallest supplier |
-| Which importer is the biggest? | Largest importer |
-| Which importer is the smallest? | Smallest importer |
-| Show supplier totals | Supplier-wise trade values |
-| Show importer totals | Importer-wise trade values |
-| Show me trade by year | Yearly trade values |
-| How much did China trade? | China's total supplier trade value |
-| What is Germany's trade value with China? | Germany's trade value with China |
+| Naive (next year = this year) | **10.8%** |
+| Blend of naive + trend + pooled AR | 13.2% |
+| Log-linear trend | 13.6% |
+| Average growth (CAGR) | 14.1% |
+| Pooled Ridge AR(1) on growth | 18.8% |
 
----
+The simplest model won. With only 5 yearly points per route, there isn't enough history for the trend and
+regression models to beat "same as last year", and 2020–2023 had big shocks (COVID, the 2022 peak, the 2023 drop).
+I kept all models in the app so you can compare them, but by default it uses whichever one scored best in the backtest.
 
-## Data Processing and Analysis
+**Anomalies flagged:** Netherlands → China 2023 (+35%), China → USA 2023 (−22%), Rep. of Korea → China 2023 (−19%),
+China → Germany 2023 (−15.5%) and 2022 (+21.8%), Japan → USA 2020 (−16.7%).
 
-The application uses Pandas to perform the main analytical operations:
+## The data problem I found
 
-- Loading the trade dataset into a DataFrame
-- Grouping records by supplier
-- Grouping records by importer
-- Calculating aggregate trade values
-- Identifying maximum and minimum trade values
-- Grouping trade values by year
-- Filtering records for specific country relationships
-- Sorting analytical results
-- Preparing results for display in the Streamlit interface
+For Germany 2020–2023, the CSV has one **total** row per supplier and year, **plus** 2,483 product-line rows that
+add up to exactly that total. If you simply sum the whole column, Germany is counted twice:
 
----
+| | Value (US$) |
+|---|---|
+| Simple sum of the column | 8.57 T |
+| Cleaned total | 7.30 T |
+| Double counted | 1.27 T |
 
-## Application Workflow
+`supplychain/data.py` checks every importer–supplier–year group. If the other rows add up to the biggest row
+(within 1%), the biggest row is kept as the total and the others are kept separately as product lines.
 
-```text
-Trade Dataset
-     ↓
-CSV Data Loading
-     ↓
-Pandas Data Processing
-     ↓
-User Question
-     ↓
-Question Pattern Matching
-     ↓
-Relevant Data Analysis
-     ↓
-Result Generation
-     ↓
-Chat Display
+## Project structure
+
+```
+supply-chain-ai/
+├── app.py                 Streamlit web app
+├── api.py                 FastAPI REST API
+├── train.py               trains + evaluates everything, writes models/report.json
+├── data/
+│   ├── global_supply_chain.csv
+│   └── intents.csv        labelled questions for the classifier
+├── supplychain/
+│   ├── data.py            loading + cleaning
+│   ├── analytics.py       totals, rankings, growth, HHI
+│   ├── nlp.py             entity extraction + intent classifier
+│   ├── forecast.py        models + rolling backtest
+│   ├── anomaly.py         Isolation Forest
+│   ├── assistant.py       question -> answer
+│   └── llm.py             optional OpenAI rewording
+├── models/                saved model + metrics (created by train.py)
+└── tests/                 pytest
 ```
 
-### Workflow Steps
-
-1. **Data Loading** – The application loads the global trade dataset from a CSV file.
-2. **Question Input** – The user enters a question through the Streamlit chat interface.
-3. **Question Processing** – The application converts the question to lowercase and checks it against the supported query patterns.
-4. **Data Analysis** – The corresponding Pandas operation is performed on the dataset.
-5. **Result Generation** – The calculated value or table is prepared for display.
-6. **Response Display** – The result is displayed in the chat interface.
-
----
-
-## Application Screenshots
-
-### Main Interface
-
-![Main Interface](Global%20Supply%20Chain%20AI%20Assistant.png)
-
-*Main interface showing the chat workspace, recent questions, and chat input.*
-
-### Dark Theme
-
-![Dark Theme](Global%20Supply%20Chain%20AI%20Assistant%20Dark%20Theme.png)
-
-*The application interface in dark theme.*
-
-### Trade Analysis Result
-
-![Trade by Year Table](Global%20Supply%20Chain%20AI%20Assistant%20Table.png)
-
-*Example of the yearly trade-value table generated from the dataset.*
-
----
-
-## Project Structure
-
-```text
-global-supply-chain-ai-assistant/
-│
-├── app.py                  # Streamlit chat application
-├── chatbot.py              # Standalone API testing script
-├── test_data.py            # Script that prints sample analyses from the dataset
-├── global_supply_chain.csv # Trade dataset
-├── README.md
-├── .gitignore
-├── LICENSE
-├── Global Supply Chain AI Assistant.png
-├── Global Supply Chain AI Assistant Dark Theme.png
-├── Global Supply Chain AI Assistant Table.png
-└── Global Supply Chain AI Assistant Command Prompt.png
-```
-
----
-
-## Installation and Setup
-
-### Prerequisites
-
-- Python 3.9 or later
-- pip package manager
-
-### 1. Clone the Repository
+## How to run
 
 ```bash
-git clone https://github.com/ammu-analytics/global-supply-chain-ai-assistant.git
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+
+python train.py                  # trains models, prints the results above
+streamlit run app.py             # web app at http://localhost:8501
+uvicorn api:app --reload         # API, docs at http://127.0.0.1:8000/docs
+pytest                           # run the tests
 ```
 
-### 2. Navigate to the Project Directory
+If you skip `train.py`, the app trains the classifier automatically the first time it starts.
+
+Optional LLM rewording:
 
 ```bash
-cd global-supply-chain-ai-assistant
+export OPENAI_API_KEY=sk-...     # Windows: set OPENAI_API_KEY=sk-...
 ```
 
-### 3. Install Dependencies
+### Example API call
 
 ```bash
-pip install streamlit pandas
+curl -X POST http://127.0.0.1:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question": "How much does Germany import from China in 2023?"}'
 ```
 
-### 4. Run the Application
+## Example questions
 
-```bash
-streamlit run app.py
-```
-
-The terminal will show the local URL, as in the example below.
-
-![Running the app in Command Prompt](Global%20Supply%20Chain%20AI%20Assistant%20Command%20Prompt.png)
-
-*Starting the application with `streamlit run app.py` in Command Prompt.*
-
-### 5. Open the Application
-
-Open the local Streamlit URL shown in the terminal, typically:
-
-```text
-http://localhost:8501
-```
-
-### Optional: Run the Data Check Script
-
-```bash
-python test_data.py
-```
-
----
+- Who is the biggest supplier?
+- Top 3 suppliers to Germany in 2021
+- How much did China import from Korea in 2022?
+- Show USA imports over the years
+- Which route dropped the most in 2023?
+- Forecast Japan to USA trade for 2025
+- How dependent is Germany on China?
+- Any anomalies in the data?
+- Was anything double counted?
 
 ## Limitations
 
-- The application is rule-based and supports predefined question patterns only.
-- Questions outside the implemented patterns may not be recognized.
-- The analysis depends on the information available in the underlying dataset.
-- Country-to-country analysis is currently implemented only for Germany (importer) and China (supplier).
-- The application is intended primarily for data exploration and educational purposes.
+- Only 3 importers, 4 suppliers and 5 years, so forecasts are rough. The app shows a range, not just one number.
+- Supplier shares are shares *within this dataset*, not of each country's total imports.
+- The Germany product lines have no product codes, so I can say "one product line is 98% of the Netherlands → Germany
+  route" but not which product it is. Adding HS codes would be the next step.
+- The intent classifier is trained on 250 example questions. More real user questions would make it better.
 
----
+## Tech
 
-## Future Enhancements
+Python · pandas · scikit-learn · Streamlit · FastAPI · pytest · (optional) OpenAI API
 
-Potential improvements (not currently implemented):
+## License
 
-- Integrating a language model for more flexible natural-language understanding
-- Expanding support for country-to-country trade queries
-- Adding interactive charts and visualizations
-- Adding commodity-level trade analysis
-- Improving follow-up question handling
-- Expanding the underlying trade dataset
-- Adding additional supply-chain indicators
-
----
-
-## Conclusion
-
-The Global Supply Chain AI Assistant demonstrates how a trade-data analysis project can move from a Power BI dashboard to an interactive, rule-based chat application built with Python, Pandas, and Streamlit.
-
-The project provides a simple way to retrieve and analyze information related to:
-
-- Trade values
-- Suppliers
-- Importers
-- Yearly trade activity
-- Country-to-country trade relationships
-
-Through this project, I gained practical experience in data collection, dashboard development, Python programming, data aggregation, analytical operations, and the development of interactive data-driven applications.
-
----
-
-## Author
-
-**Lakshaya S**
-
-## Project Category
-
-- Data Analytics
-- Business Intelligence
-- Conversational Data Applications
-- Python Development
-- Supply Chain Analytics
+MIT
